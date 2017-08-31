@@ -17,3 +17,7 @@ objects = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
 def createClient(**kwargs):
     return objects.execute_kw(db, uid, password, 'res.partner', 'create', [kwargs])
 
+#Update client information:
+def updateClient(identifier, **kwargs):
+    objects.execute_kw(db, uid, password, 'res.partner', 'write', [[identifier], kwargs])
+
