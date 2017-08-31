@@ -1,5 +1,4 @@
 import xmlrpclib
-from operator import itemgetter
 
 url = 'https://batata.odoo.com'
 db = 'batata'
