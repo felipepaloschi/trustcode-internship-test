@@ -1,9 +1,9 @@
 import xmlrpclib
 
-url = 'https://batata.odoo.com'
-db = 'batata'
-username = 'paloschifelipe@outlook.com'
-password = 'cdnn792458'
+url = 'https://odao.odoo.com'
+db = 'odao'
+username = 'sadaddasdada@gmail.com'
+password = '12345qaz'
 
 server = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
 
@@ -52,6 +52,7 @@ def biggestSale():
 
     return sales[-1]
 
+#compares the products ids in the order_lines with the products model
 def saleInfo(identifier):
     sales =  models.execute_kw(db, uid, password,
         'sale.order', 'read', [identifier], {'fields':['order_line']})
