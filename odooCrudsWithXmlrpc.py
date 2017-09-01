@@ -48,6 +48,14 @@ def biggestSale():
     sales = models.execute_kw(db, uid, password,
         'sale.order', 'search_read',
         [],
-        {'fields': ['partner_id', 'amount_total'], 'order':'amount_total'})
+        {'fields': ['name', 'partner_id', 'amount_total'], 'order':'amount_total'})
 
     return sales[-1]
+
+def saleInfo(identifier):
+    sales =  models.execute_kw(db, uid, password,
+        'sale.order', 'read', [identifier], {'fields':['order_line']})
+
+    return [models.execute_kw(db, uid, password, 'product.product', 'read', [i], 
+        {'fields':['product_id', 'lst_price']}) for i in sales[0]['order_line']]
+
