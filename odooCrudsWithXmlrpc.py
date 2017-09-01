@@ -59,3 +59,23 @@ def saleInfo(identifier):
     return [models.execute_kw(db, uid, password, 'product.product', 'read', [i], 
         {'fields':['product_id', 'lst_price']}) for i in sales[0]['order_line']]
 
+#Returns the absolute (considering only the number os sales) and the price (considers the price of 
+#each sale) percent of sales
+def closedSalesPercent():
+    salesOrders = models.execute_kw(db, uid, password,
+        'sale.order', 'search_read',
+        [],
+        {'fields': ['id', 'amount_total', 'state']})
+    
+    sales = [i for i in salesOrders if i['state']=='sale']
+    draft = [i for i in salesOrders if i['state']=='draft']
+
+    absolutPercent = ((float(len(sales)))/(float(len(sales))+float(len(draft))))*100
+    
+    total_sales = sum(i['amount_total'] for i in sales)
+    total_draft = sum(i['amount_total'] for i in draft)
+    
+    pricePercent = float((total_sales/(total_sales + total_draft))*100)
+
+    return {'absolutPercent':absolutPercent, 'pricePercent':pricePercent}
+
