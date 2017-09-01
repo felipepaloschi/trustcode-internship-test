@@ -1,5 +1,4 @@
 import xmlrpclib
-from operator import itemgetter
 
 url = 'https://batata.odoo.com'
 db = 'batata'
@@ -44,3 +43,11 @@ def clientList(limit=10):
     clientData = [x[0] for x in clientData]
 
     return sorted(clientData, key = lambda k: k['name']) 
+
+def biggestSale():
+    sales = models.execute_kw(db, uid, password,
+        'sale.order', 'search_read',
+        [],
+        {'fields': ['partner_id', 'amount_total'], 'order':'amount_total'})
+
+    return sales[-1]
