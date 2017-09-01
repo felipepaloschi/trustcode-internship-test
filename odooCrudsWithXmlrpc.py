@@ -79,3 +79,12 @@ def closedSalesPercent():
 
     return {'absolutPercent':absolutPercent, 'pricePercent':pricePercent}
 
+def invoiceAmountPerMonth(month):
+    invoice = models.execute_kw(db, uid, password,
+        'account.invoice', 'search_read',
+        [],
+        {'fields': ['create_date', 'amount_total']})
+
+    invoiceThisMonth = [i for i in invoice if int(i['create_date'][5:7])==month]
+
+    return sum(i['amount_total'] for i in invoiceThisMonth)
