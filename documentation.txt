@@ -1,0 +1,56 @@
+odooCrudsWithXmlrpc Documentation!!
+###################
+createClient(**kwargs):
+    the function receives a number of atributes, according to the atributes present in the
+    model 'res.partner' of yout odoo database.
+    By default we have the basic atributes:
+        name/street/phone/mobile/website/email
+
+    When asked to input the data to create a new client, you must insert the data like the example:
+
+        name=Felipe-street=rua rosa-website=umsitelegal.org
+
+    To see what other atributes are available you need to add "?debug=" right after web at your odoo url
+###################
+updateClient(identifier, **kwargs):
+    Update the infos about the client whose identifier was inserted. If there's no client with that identifier, a new client will be created
+
+    kwargs --> see createClient
+###################
+countClients():
+    Only returns the number of clients on the database.
+    It uses search_count with a single parameter 'customer=True'
+###################
+clientList():
+    The function use a query to get the ids of the first 10 customers and sort them by name
+###################
+biggestSale():
+    Get a set of all the sales ordering them by the atribute 'amount_total' and return the last value (wich is the bigger one)
+###################
+saleInfo(identifier):
+    First the function get the fields ['order_lines'] from the sale.order. This field contains the id from the products that were bought in this sale.
+
+    Then another query will get the information (id and lst_price) from the models 'product.product'
+###################
+closedSalesPercent():
+    First the method gets the sale orders. 
+
+    Them divides them into two lists, one list contains the sale orders whose atribute ['state']=sale, other ['state']=draft.
+
+    It returns two percents, the first one is absolute, it considers only the number os drafts and sales
+    Ex: 2 sales and 1 drafts
+        absolutPercent = 2/(2+1) = 0.66 --> 66% sales and 33% drafts
+
+    the second is pricePercent, it takes in consideration the price of each sale.
+
+    Ex: 2 sales, R$10,00 each, one draft, R$ 30,00
+
+    pricePercent = (10+10)/(30+10+10) = 0.4 --> 40% sales and 60% drafts 
+###################
+invoiceAmountPerMonth(month):
+    It takes a number (0-12) as atribute and compares this number with the 5th and the 6th characters from the account.inoice atribue 'create_date'
+
+    Ex: create_date = 2017-09-01 05:21:42
+        create_date[5:7]=09
+
+    Then the method sums all the 'amount_total' corresponding to the selected month
